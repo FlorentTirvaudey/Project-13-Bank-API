@@ -2,10 +2,11 @@ import Chat from '../assets/img/icon-chat.png'
 import Security from '../assets/img/icon-security.png'
 import Logo from '../assets/img/argentBankLogo.png'
 import Money from '../assets/img/icon-money.png'
-import Navbar from './Navbar';
-import Footer from './Footer';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
 
 function Home() {
+
     return (
         <div className="App">
           <Navbar logo={Logo} />

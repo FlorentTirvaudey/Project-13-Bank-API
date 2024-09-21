@@ -1,0 +1,26 @@
+.block_404 {
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+    gap: 90px;
+    margin: 100px auto;
+}
+
+.block_404 h1 {
+    font-size: 4.5em;
+    color: #FF0101;
+}
+
+.block_404 p {
+    color: #FF0101;
+    max-width: 80%;
+    margin: auto;
+}
+
+.back_home {
+    font-size: 0.8em;
+    color: black;
+    max-width: 80%;
+    margin: auto;
+    cursor: pointer;
+}

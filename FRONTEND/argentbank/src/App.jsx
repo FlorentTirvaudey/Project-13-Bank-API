@@ -1,8 +1,8 @@
-import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Home from './components/Home';
-import Loginpage from './components/Loginpage';
-import Profilpage from './components/Profilpage';
+import Home from './pages/Home';
+import Loginpage from './pages/Loginpage';
+import Profilpage from './pages/Profilpage';
+import Page404 from './pages/Page404';
 
 
 function App() {
@@ -12,6 +12,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Loginpage />} />
         <Route path="/profil" element={<Profilpage />} />
+        <Route path="*" element={<Page404 />} />
       </Routes>
     </Router>
   );

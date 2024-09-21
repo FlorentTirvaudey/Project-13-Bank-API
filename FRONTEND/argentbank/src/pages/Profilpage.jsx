@@ -1,15 +1,41 @@
-import Footer from "./Footer";
-import Navbar from "./Navbar";
+import Footer from "../components/Footer";
+import Navbar from "../components/Navbar";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 import Logo from '../assets/img/argentBankLogo.png'
 
 function Profilpage() {
+
+    const { isLoggedIn, userData, token } = useSelector((state) => state.auth);
+
+    console.log("État du store après connexion :", { isLoggedIn, userData, token });
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!isLoggedIn) {
+          navigate('/login');
+        }
+      }, [isLoggedIn, navigate]);
+
+      if (!isLoggedIn) {
+        return null; // Ne rien afficher pendant la redirection
+    }
+
+    //   {userData.firstname} {userData.lastname}
+      //pas besoind e fetch ici, il suffit simplement de recup avec useSelector les datas (name, isLoggedIn, ...) dans le store pour s'en servir dans le composant
+
+      console.log('les datas pour afficher dans le PROFIL', userData)
+
     return (
-        <div>
+        <>
             <Navbar logo={Logo} />
                 <main className="main bg-dark">
                     <div className="header">
-                        <h1>Welcome back<br />Tony Jarvis!</h1>
+                        <h1>Welcome back<br />{userData?.firstname} {userData?.lastname}!</h1>
                         <button className="edit-button">Edit Name</button>
                     </div>
                     <h2 className="sr-only">Accounts</h2>
@@ -44,8 +70,8 @@ function Profilpage() {
                         </div>
                     </section>
                 </main>
-            <Footer />
-        </div>
+            <Footer /> 
+        </>
     )
 }
 
