@@ -3,12 +3,9 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { loginSuccess } from "../redux/slices/authentification";
-import { useSelector } from "react-redux";
 import User from "../service/User";
 
 function Form() {
-
-    const authState = useSelector((state) => state.auth);
 
     const [userEmail, setUserEmail] = useState('');
     const [userPassword, setUserPassword] = useState('');
