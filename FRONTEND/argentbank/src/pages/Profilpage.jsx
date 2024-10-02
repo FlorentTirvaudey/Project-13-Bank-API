@@ -1,16 +1,25 @@
+import axios from "axios";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import Logo from '../assets/img/argentBankLogo.png'
+import { updateUser } from "../redux/slices/authentification";
 
 function Profilpage() {
 
     const { isLoggedIn, userData, token } = useSelector((state) => state.auth);
 
-    console.log("État du store après connexion :", { isLoggedIn, userData, token });
+    const [firstname, setFirstname] = useState(userData?.firstname || '');
+    const [lastname, setLastname] = useState(userData?.lastname || '');
+
+    // Edit temp firstname and lastname states
+    const [tempFirstname, setTempFirstname] = useState(userData?.firstname || '');
+    const [tempLastname, setTempLastname] = useState(userData?.lastname || '');
+
+    // console.log("État du store après connexion :", { isLoggedIn, userData, token });
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -25,18 +34,78 @@ function Profilpage() {
         return null; // Ne rien afficher pendant la redirection
     }
 
+    const handleChangeName = async () => {
+        document.getElementById('firstname').value = "";
+        document.getElementById('lastname').value = "";
+
+        try {
+            const response = await axios.put(
+                'http://localhost:3001/api/v1/user/profile',
+                {
+                    firstName: tempFirstname,
+                    lastName: tempLastname
+                },
+                {
+                  headers: {
+                    'Authorization': `Bearer ${token}`
+                  }
+                }
+              );
+
+            setFirstname(response.data.body.firstName);
+            setLastname(response.data.body.lastName);
+
+            dispatch(updateUser(response.data.body))
+            //   console.log('jkfbkjekjekjfe', response)
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    const displayEditBlock = () => {
+        document.getElementById('edit-block').style.display = "initial";
+        document.getElementById('id_edit_button').style.display = "none";
+    }
+
+    const hideEditBlock = () => {
+        document.getElementById('edit-block').style.display = "none";
+        document.getElementById('id_edit_button').style.display = "initial";
+    }
+
+
+
     //   {userData.firstname} {userData.lastname}
       //pas besoind e fetch ici, il suffit simplement de recup avec useSelector les datas (name, isLoggedIn, ...) dans le store pour s'en servir dans le composant
 
-      console.log('les datas pour afficher dans le PROFIL', userData)
+    //   console.log('les datas pour afficher dans le PROFIL', userData)
 
     return (
         <>
             <Navbar logo={Logo} />
                 <main className="main bg-dark">
                     <div className="header">
-                        <h1>Welcome back<br />{userData?.firstname} {userData?.lastname}!</h1>
-                        <button className="edit-button">Edit Name</button>
+                        <h1>Welcome back<br />{firstname} {lastname}!</h1>
+                        <button id="id_edit_button" className="edit-button" onClick={displayEditBlock}>Edit Name</button>
+                        <div id="edit-block" style={{
+                            display: "none"
+                        }}>
+                            <div className="change_username">
+                                <div style={{
+                                    margin: "15px auto"
+                                }}>
+                                    <input className="inputs_changename" type="text" id="firstname" placeholder={firstname || "Firstname"} onChange={() => setTempFirstname(event.target.value)} />
+                                    <input className="inputs_changename" type="text" id="lastname" placeholder={lastname || "Lastname"} onChange={() => setTempLastname(event.target.value)} />
+                                </div>
+                            </div>
+                            <div className="change_username">
+                                <div style={{
+                                    margin: "15px auto"
+                                }}>
+                                    <button className="edit-button" onClick={() => {handleChangeName(); hideEditBlock()}}>Save</button>
+                                    <button className="edit-button" onClick={hideEditBlock}>Cancel</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <h2 className="sr-only">Accounts</h2>
                     <section className="account">

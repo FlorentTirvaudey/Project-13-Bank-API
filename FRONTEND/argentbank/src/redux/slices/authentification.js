@@ -27,10 +27,13 @@ const authSlice = createSlice({
             state.isLoggedIn = false;
             state.userData = null;
             state.status = 'idle';
+        },
+        updateUser: (state, action) => {
+            state.userData = action.payload.userData;
         }
     }
 })
 
-export const { loginSuccess, loginFailed, logout } = authSlice.actions;
+export const { loginSuccess, loginFailed, logout, updateUser } = authSlice.actions;
 
 export default authSlice.reducer;

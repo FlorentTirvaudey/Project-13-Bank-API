@@ -20,6 +20,24 @@ html {
   .bg-dark {
     background-color: #12002b;
   }
+
+  .change_username {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    width: 50%;
+    margin: auto;
+  }
+
+  .change_username .edit-button {
+    padding: 10px;
+    margin: 0px 10px;
+  }
+
+  .inputs_changename {
+    padding: 10px 5px;
+    margin: 0px 10px;
+  }
   
   .sr-only {
     border: 0 !important;
