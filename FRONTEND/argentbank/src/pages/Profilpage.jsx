@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 
 import Logo from '../assets/img/argentBankLogo.png'
 import { updateUser } from "../redux/slices/authentification";
+import User from "../service/User";
 
 function Profilpage() {
 
@@ -19,8 +20,6 @@ function Profilpage() {
     const [tempFirstname, setTempFirstname] = useState(userData?.firstname || '');
     const [tempLastname, setTempLastname] = useState(userData?.lastname || '');
 
-    // console.log("État du store après connexion :", { isLoggedIn, userData, token });
-
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -29,10 +28,6 @@ function Profilpage() {
           navigate('/login');
         }
       }, [isLoggedIn, navigate]);
-
-      if (!isLoggedIn) {
-        return null; // Ne rien afficher pendant la redirection
-    }
 
     const handleChangeName = async () => {
         document.getElementById('firstname').value = "";
@@ -55,8 +50,12 @@ function Profilpage() {
             setFirstname(response.data.body.firstName);
             setLastname(response.data.body.lastName);
 
-            dispatch(updateUser(response.data.body))
-            //   console.log('jkfbkjekjekjfe', response)
+            const { createdAt, email, firstName, id, lastName, updatedAt } = response.data.body;
+
+            const userData = new User(createdAt, email, firstName, id, lastName, updatedAt);
+
+            dispatch(updateUser({ userData }));
+
         } catch (error) {
             console.error(error);
         }
@@ -71,13 +70,6 @@ function Profilpage() {
         document.getElementById('edit-block').style.display = "none";
         document.getElementById('id_edit_button').style.display = "initial";
     }
-
-
-
-    //   {userData.firstname} {userData.lastname}
-      //pas besoind e fetch ici, il suffit simplement de recup avec useSelector les datas (name, isLoggedIn, ...) dans le store pour s'en servir dans le composant
-
-    //   console.log('les datas pour afficher dans le PROFIL', userData)
 
     return (
         <>

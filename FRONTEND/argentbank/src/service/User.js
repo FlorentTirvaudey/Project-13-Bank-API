@@ -1,12 +1,11 @@
 class User {
-    constructor(createdAt, email, firstname, id, lastname, updatedAt, username) {
+    constructor(createdAt, email, firstname, id, lastname, updatedAt) {
         this.createdAt = createdAt;
         this.email = email;
         this.firstname = firstname;
         this.id = id;
         this.lastname = lastname;
         this.updatedAt = updatedAt;
-        this.username = username;
     }
 }
 

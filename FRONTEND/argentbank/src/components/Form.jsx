@@ -31,15 +31,6 @@ function Form() {
 
             const token = response.data.body.token;
 
-            console.log('la response', response)
-            console.log('le token', token)
-
-            if(rememberMe) {
-                localStorage.setItem('token', token);
-            } else {
-                sessionStorage.setItem('token', token);
-            }
-
             const profileResponse = await axios.post(
                 'http://localhost:3001/api/v1/user/profile',
                 {},
@@ -50,14 +41,11 @@ function Form() {
                 }
               );
             
-              const { createdAt, email, firstName, id, lastName, updatedAt, username } = profileResponse.data.body;
+              const { createdAt, email, firstName, id, lastName, updatedAt } = profileResponse.data.body;
 
-            const userData = new User(createdAt, email, firstName, id, lastName, updatedAt, username);
+            const userData = new User(createdAt, email, firstName, id, lastName, updatedAt);
 
-            console.log("userdata", userData);
-            console.log('les datas dans la response', profileResponse.data.body)
-
-            dispatch(loginSuccess({ token, userData }))
+            dispatch(loginSuccess({ token, userData, rememberMe }))
 
             if(token && profileResponse) {
                 navigate('/profil');
@@ -65,13 +53,6 @@ function Form() {
 
         } catch (error) {
             console.error(error);
-            if (error.response) {
-                // dispatch(loginFail(error.response.data.message || 'Erreur de connexion.'));
-              } else if (error.request) {
-                // dispatch(loginFail('Aucune réponse du serveur. Veuillez vérifier votre connexion.'));
-              } else {
-                // dispatch(loginFail('Une erreur est survenue lors de la connexion.'));
-              }
         }
     }
 
@@ -89,7 +70,7 @@ function Form() {
                 <input type="password" id="password" value={userPassword} onChange={() => setUserPassword(event.target.value)}/>
             </div>
             <div className="input-remember">
-                <input type="checkbox" id="remember-me" checked={rememberMe} onChange={() => setRememberMe(event.target.check)}/><label htmlFor="remember-me"
+                <input type="checkbox" id="remember-me" checked={rememberMe} onChange={() => setRememberMe(event.target.checked)}/><label htmlFor="remember-me"
                 >Remember me</label>
             </div>
             <button className="sign-in-button">Sign In</button>
