@@ -7,6 +7,17 @@ class User {
         this.lastname = lastname;
         this.updatedAt = updatedAt;
     }
+
+    toJSON() {
+        return {
+          createdAt: this.createdAt,
+          email: this.email,
+          firstname: this.firstname,
+          id: this.id,
+          lastname: this.lastname,
+          updatedAt: this.updatedAt,
+        };
+      }
 }
 
 export default User;

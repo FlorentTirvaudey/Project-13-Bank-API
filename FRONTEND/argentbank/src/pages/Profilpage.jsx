@@ -54,7 +54,7 @@ function Profilpage() {
 
             const userData = new User(createdAt, email, firstName, id, lastName, updatedAt);
 
-            dispatch(updateUser({ userData }));
+            dispatch(updateUser({ userData: userData.toJSON() }));
 
         } catch (error) {
             console.error(error);

@@ -45,7 +45,7 @@ function Form() {
 
             const userData = new User(createdAt, email, firstName, id, lastName, updatedAt);
 
-            dispatch(loginSuccess({ token, userData, rememberMe }))
+            dispatch(loginSuccess({ token, userData: userData.toJSON(), rememberMe }))
 
             if(token && profileResponse) {
                 navigate('/profil');
