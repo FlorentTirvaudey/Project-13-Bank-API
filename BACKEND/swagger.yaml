@@ -156,19 +156,23 @@ paths:
         - application/json
       responses:
         '200':
-          description: User transactions retrieved successully
+          description: User transaction retrieved successully
           schema:
             $ref: '#/definitions/TransactionResponse'
         '400':
-          description: Invalid Fields
+          description: Invalid account ID
+        '401': 
+          description: Unauthorized user
+        '404':
+          description: Transaction not found
         '500':
           description: Internal Server Error
-  /transaction/{transactionId}/category:
+  /transaction/{transactionId}:
     put:
       tags:
         - Accounts Module
-      summary: Transaction category
-      description: API for fetching category from a transaction
+      summary: Modify a category or note
+      description: API for modify category from a transaction
       security: 
         - Bearer: []
       parameters:
@@ -178,114 +182,48 @@ paths:
           required: true
           type: string
         - in: body
-          name: category
-          description: Modified transaction's category
+          name: body
+          description: Modified transaction category or note
           required: true
           schema:
-            $ref: '#/definitions/TransactionCategory'
+            $ref: '#/definitions/TransactionPutCategorieNote'
       responses:
         '200':
-          description: Transaction's category modified successfully
+          description: Transaction category or note modified successfully
           schema: 
-            $ref: '#/definitions/TransactionCategory'
+            $ref: '#/definitions/TransactionResponse'
+        '400':
+          description: Invalid transaction ID
         '401': 
           description: Unauthorized user
         '404': 
           description: Transaction not found
         '500': 
           description: Internal Servor Error
-  /transaction/{transactionId}/note:
-    post:
-      tags:
-        - Accounts Module
-      summary: Add transaction note
-      description: API for adding a transaction note
-      security: 
-        - Bearer: []
-      parameters:
-        - in: path
-          name: transactionId
-          description: ID of a transaction
-          required: true
-          type: string
-        - in: body
-          name: note
-          description: Add transaction note
-          required: true
-          schema: 
-            $ref: '#/definitions/TransactionNote'
-      responses:
-        '200':
-          description: Note added to the transaction successfully
-          schema: 
-            $ref: '#/definitions/ApiResponseNote'
-        '401':
-          description: Unauthorized user
-        '404':
-          description: Note not created
-        '500':
-          description: Internal Server Error
-  /transactions/{transactionId}/note/{noteId}:
-    put:
-      tags:
-        - Accounts Module
-      summary: Modify transaction note
-      description: API for modifying a note of a transaction
-      security: 
-        - Bearer: []
-      parameters:
-        - in: path
-          name: transactionId
-          description: ID of a transaction
-          required: true
-          type: string
-        - in: path
-          name: noteId
-          description: ID of a note
-          required: true
-          type: string
-        - in: body
-          name: note
-          description: Modify transaction note
-          required: true
-          schema: 
-            $ref: '#/definitions/TransactionNote'
-      responses:
-        '200':
-          description: Note modified successfully
-          schema:
-            $ref: '#/definitions/TransactionResponseNote'
-        '401':
-          description: Unauthorized user
-        '404':
-          description: Note not modified
-        '500':
-          description: Internal Server Error
     delete:
-      tags:
-        - Accounts Module
-      summary: Delete transaction note
-      description: API for deleting a note of a transaction
       security:
         - Bearer: []
+      tags:
+        - Accounts Module
+      summary: Delete a note
+      description: API for delete a categorie from a transaction
       parameters:
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
         - in: path
           name: transactionId
           description: ID of a transaction
           required: true
           type: string
-        - in: path
-          name: noteId
-          description: ID of a note
-          required: true
-          type: string
+      produces:
+        - application/json
       responses:
         '200':
-          description: Note deleted successfully
-        '401':
-          description: Unauthorized user
-        '404':
-          description: Note not deleted
+          description: Transaction note deleted successully
+        '400':
+          description: Invalid transaction ID
         '500':
           description: Internal Server Error
 securityDefinitions:
@@ -345,59 +283,55 @@ definitions:
   AccountResponse:
     type: object
     properties:
-      accountID:
+      status:
+        type: integer
+      message:
         type: string
-        description: account ID
-      accountName:
-        type: string
-        description: account name
-      currentBalance:
-        type: number
-        description: current account balance
-        format: double
+      body:
+        type: object
+        properties:
+          id:
+            type: string
+          accountName:
+            type: string
+          currentBalance:
+            type: number
+            format: double
   TransactionResponse:
     type: object
     properties:
-      transactionID: 
+      status:
+        type: integer
+      message:
         type: string
-        description: transaction ID
-      transactionType:
-        type: string
-        description: transaction type
-      date:
-        type: string
-        format: date-time
-        description: transaction date
-      description:
-        type: string
-        description: transaction description
-      amount:
-        type: number
-        description: transaction amout
-      balance:
-        type: number
-        description: available balance
-        format: double
-      category:
-        type: string
-        description: transaction category name
-      note: 
-        type: string
-        description: transaction user note
-  ApiResponseNote:
-    type: object
+      body:
+        type: object
+        properties:
+          id:
+            type: string
+          accountName:
+            type: string
+          currentBalance:
+            type: number
+            format: double
+          category:
+            type: string
+          note: 
+            type: string
+  TransactionPutCategorieNote:
+    type: string
     properties:
+      categorie:
+        type: string
+        description: transaction categorie
       note:
         type: string
-      noteID:
-        type: string
-  TransactionCategory:
+        description: transaction note
+  TransactionDeleteCategorie:
     type: object
     properties:
-      category:
+      categorie:
         type: string
-  TransactionNote:
-    type: object
-    properties:
-      note:
-        type: string
+        description: transaction categorie
+
+  
