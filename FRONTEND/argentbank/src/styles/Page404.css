@@ -4,15 +4,19 @@
     flex-direction: column;
     gap: 90px;
     margin: 100px auto;
+    color: white;
+    padding: 30px;
+}
+  
+.bg-dark {
+    background-color: #12002b;
 }
 
 .block_404 h1 {
     font-size: 4.5em;
-    color: #FF0101;
 }
 
 .block_404 p {
-    color: #FF0101;
     max-width: 80%;
     margin: auto;
 }
@@ -23,4 +27,5 @@
     max-width: 80%;
     margin: auto;
     cursor: pointer;
+    color: white;
 }

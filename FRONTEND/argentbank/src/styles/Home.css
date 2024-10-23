@@ -15,6 +15,7 @@ html {
   
   .main {
     flex: 1;
+    padding: 10px;
   }
   
   .bg-dark {
