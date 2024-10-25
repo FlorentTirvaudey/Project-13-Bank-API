@@ -118,6 +118,18 @@ html {
     margin-bottom: 0;
     font-size: 0.9rem;
   }
+
+  .flex_row {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+  }
+  
+  .flex_row_mingap {
+    display: flex;
+    flex-direction: row;
+    gap: 3px;
+  }
   
   @media (min-width: 920px) {
     .hero {

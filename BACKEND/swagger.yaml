@@ -200,13 +200,14 @@ paths:
           description: Transaction not found
         '500': 
           description: Internal Servor Error
+  /transaction/{transactionId}/note/{noteId}:
     delete:
       security:
         - Bearer: []
       tags:
         - Accounts Module
       summary: Delete a note
-      description: API for delete a categorie from a transaction
+      description: API for delete a note from a transaction
       parameters:
         - in: header
           name: Authorization
@@ -215,6 +216,11 @@ paths:
         - in: path
           name: transactionId
           description: ID of a transaction
+          required: true
+          type: string
+        - in: path
+          name: noteId
+          description: ID of a note
           required: true
           type: string
       produces:

@@ -41,11 +41,11 @@ function Profilpage() {
                     lastName: tempLastname
                 },
                 {
-                  headers: {
+                    headers: {
                     'Authorization': `Bearer ${token}`
-                  }
+                    }
                 }
-              );
+                );
 
             setFirstname(response.data.body.firstName);
             setLastname(response.data.body.lastName);
@@ -67,8 +67,18 @@ function Profilpage() {
     }
 
     const hideEditBlock = () => {
+        document.getElementById('error_modif').style.display = "none";
         document.getElementById('edit-block').style.display = "none";
         document.getElementById('id_edit_button').style.display = "initial";
+    }
+
+    const save = () => {
+        if(tempFirstname && tempLastname) {
+            handleChangeName();
+            hideEditBlock();
+        } else {
+            document.getElementById('error_modif').style.display = "block";
+        }
     }
 
     return (
@@ -77,6 +87,9 @@ function Profilpage() {
                 <main className="main bg-dark">
                     <div className="header">
                         <h1>Welcome back<br />{firstname} {lastname}!</h1>
+                        <span id="error_modif" style={{
+                            display: "none"
+                        }}>Le nom ou prénom ne peut pas être vide</span>
                         <button id="id_edit_button" className="edit-button" onClick={displayEditBlock}>Edit Name</button>
                         <div id="edit-block" style={{
                             display: "none"
@@ -93,7 +106,7 @@ function Profilpage() {
                                 <div style={{
                                     margin: "15px auto"
                                 }}>
-                                    <button className="edit-button" onClick={() => {handleChangeName(); hideEditBlock()}}>Save</button>
+                                    <button className="edit-button" onClick={save}>Save</button>
                                     <button className="edit-button" onClick={hideEditBlock}>Cancel</button>
                                 </div>
                             </div>
